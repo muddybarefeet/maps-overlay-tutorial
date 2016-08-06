@@ -60,8 +60,8 @@
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <outlet property="map" destination="LSo-fr-8xD" id="cBP-GF-KZg"/>
                         <outlet property="mapTypeSegmentedControl" destination="dOn-Vf-gxB" id="kUw-eT-ocy"/>
+                        <outlet property="mapView" destination="LSo-fr-8xD" id="TOw-DD-07o"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LwU-tG-gVr" userLabel="First Responder" sceneMemberID="firstResponder"/>

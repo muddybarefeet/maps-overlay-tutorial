@@ -62,8 +62,8 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="map" destination="17D-zC-Ybu" id="GsQ-Of-Gf3"/>
                         <outlet property="mapTypeSegmentedControl" destination="tnH-lK-9sp" id="c87-RA-ilT"/>
+                        <outlet property="mapView" destination="17D-zC-Ybu" id="75u-qi-fOD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3" sceneMemberID="firstResponder"/>
