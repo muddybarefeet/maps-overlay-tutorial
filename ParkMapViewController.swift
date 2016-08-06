@@ -31,21 +31,37 @@ class ParkMapViewController: UIViewController, MKMapViewDelegate {
         let span = MKCoordinateSpanMake(fabs(latDelta), 0.0)
         let region = MKCoordinateRegionMake(park.midCoordinate, span)
         mapView.region = region
+        addOverlay()
+    }
+    
+    func addOverlay() {
+        let overlay = ParkMapOverlay(park: park)
+        mapView.addOverlay(overlay)
     }
     
     func loadSelectedOptions() {
-    // To be implemented
+        mapView.removeAnnotations(mapView.annotations)
+        mapView.removeOverlays(mapView.overlays)
+        
+        for option in selectedOptions {
+            switch (option) {
+            case .MapOverlay:
+                addOverlay()
+            default:
+                break;
+            }
+        }
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    let optionsViewController = segue.destinationViewController as! MapOptionsViewController
-    optionsViewController.selectedOptions = selectedOptions
+        let optionsViewController = segue.destinationViewController as! MapOptionsViewController
+        optionsViewController.selectedOptions = selectedOptions
     }
 
     @IBAction func closeOptions(exitSegue: UIStoryboardSegue) {
-    let optionsViewController = exitSegue.sourceViewController as! MapOptionsViewController
-    selectedOptions = optionsViewController.selectedOptions
-    self.loadSelectedOptions()
+        let optionsViewController = exitSegue.sourceViewController as! MapOptionsViewController
+        selectedOptions = optionsViewController.selectedOptions
+        self.loadSelectedOptions()
     }
 
     @IBAction func mapTypeChanged(sender: AnyObject) {
@@ -59,5 +75,15 @@ class ParkMapViewController: UIViewController, MKMapViewDelegate {
         case .Satellite:
             mapView.mapType = MKMapType.Satellite
         }
+    }
+    
+    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+        let overlayView: MKOverlayRenderer?
+        if overlay is ParkMapOverlay {
+            let magicMountainImage = UIImage(named: "overlay_park")
+            overlayView = ParkMapOverlayView(overlay: overlay, overlayImage: magicMountainImage!)
+            return overlayView!
+        }
+        return MKOverlayRenderer()
     }
 }
