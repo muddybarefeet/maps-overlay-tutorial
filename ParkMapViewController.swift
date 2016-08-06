@@ -31,12 +31,17 @@ class ParkMapViewController: UIViewController, MKMapViewDelegate {
         let span = MKCoordinateSpanMake(fabs(latDelta), 0.0)
         let region = MKCoordinateRegionMake(park.midCoordinate, span)
         mapView.region = region
-        addOverlay()
+        addBoundary()
     }
     
     func addOverlay() {
         let overlay = ParkMapOverlay(park: park)
         mapView.addOverlay(overlay)
+    }
+    
+    func addBoundary() {
+        let polygon = MKPolygon(coordinates: &park.boundary, count: park.boundaryPointsCount)
+        mapView.addOverlay(polygon)
     }
     
     func loadSelectedOptions() {
@@ -47,6 +52,8 @@ class ParkMapViewController: UIViewController, MKMapViewDelegate {
             switch (option) {
             case .MapOverlay:
                 addOverlay()
+            case .MapBoundary:
+                addBoundary()
             default:
                 break;
             }
@@ -83,6 +90,11 @@ class ParkMapViewController: UIViewController, MKMapViewDelegate {
             let magicMountainImage = UIImage(named: "overlay_park")
             overlayView = ParkMapOverlayView(overlay: overlay, overlayImage: magicMountainImage!)
             return overlayView!
+        } else if overlay is MKPolygon {
+            let polygonView = MKPolygonRenderer(overlay: overlay)
+            polygonView.strokeColor = UIColor.magentaColor()
+            
+            return polygonView
         }
         return MKOverlayRenderer()
     }
